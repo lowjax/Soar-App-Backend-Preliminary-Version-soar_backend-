@@ -1,0 +1,202 @@
+const express = require("express")
+// Create a router so that we can define API
+// routes in this file.
+const router = express.Router()
+// Access the books model so that we can access
+// book data in this file.
+const sportModel = require("../models/sportModel")
+const logModel = require("../models/logModel")
+
+
+
+// Define an /api/books endpoint that responds with
+// an array of all books.
+router.get("/body", (req, res) => {
+    sportModel.getBodyPart()
+        .then((results) => {
+            res.status(200).json(results)
+        })
+        .catch((error) => {
+            // Log any errors to the node console
+            console.log(error)
+            res.status(500).json("query error")
+        })
+})
+if (req.session) {
+    logModel.createLog(
+        req.ip,
+        (JSON.stringify(req.session.user)),
+        req.session.user.email,
+        req.session.user.user_status,
+        (new Date().toISOString()),
+        req.method,
+
+    )
+} else {
+    res.redirect('/login')
+    res.alert("you must sign in")
+}
+
+// Define an /api/books/:id endpoint that responds with
+// a specific book by id
+
+// could be "/favorites/:content"
+router.get("/body", (req, res) => {
+    bodyModole.body(body)
+        .then((results) => {
+            if (results.length > 0) {
+                res.status(200).json(results[0])
+            } else {
+                res.status(404).json("failed to get body part")
+            }
+        })
+        .catch((error) => {
+            // Log sql errors to node console
+            console.log(error)
+            res.status(500).json("query error")
+        })
+    if (req.session) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
+
+
+})
+
+
+
+// Define an /api/users/update endpoint that updates an existing user
+router.post("/body/update", (req, res) => {
+    // the req.body represents the posted json data
+    let ID = req.body
+
+
+    // If the string does NOT start with a $ then we need to hash it.
+    // Existing passwords that do start with $ are already hashed
+
+    // Each of the names below reference the "name" attribute in the form
+    bodyModole.updateBodyPart(
+            sport.sport)
+
+        .then((result) => {
+            if (result.affectedRows > 0) {
+                res.status(200).json("body updated")
+            } else {
+                res.status(404).json("body not found")
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json("failed to update body - query error")
+        })
+})
+if (req.session) {
+    logModel.createLog(
+        req.ip,
+        (JSON.stringify(req.session.user)),
+        req.session.user.email,
+        req.session.user.user_status,
+        (new Date().toISOString()),
+        req.method,
+
+    )
+} else {
+    res.redirect('/login')
+    res.alert("you must sign in")
+}
+
+
+
+router.post("/body/delete", (req, res) => {
+    // Access the user id from the body of the request
+    let body = req.body.body
+
+    // Ask the model to delete the user with userId
+    bodyModole.deleteBodyPart(body)
+        .then((result) => {
+            if (result.affectedRows > 0) {
+                res.status(200).json("body part deleted")
+            } else {
+                res.status(404).json("body part not found")
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json("failed to delete favorites - query error")
+        })
+})
+if (req.session) {
+    logModel.createLog(
+        req.ip,
+        (JSON.stringify(req.session.user)),
+        req.session.user.email,
+        req.session.user.user_status,
+        (new Date().toISOString()),
+        req.method,
+
+    )
+} else {
+    res.redirect('/login')
+    res.alert("you must sign in")
+}
+
+
+
+router.post("/body/create", (req, res) => {
+    // Only allow admins to use this endpoint
+
+
+    // req.body represents the form field data (json in body of fetch)
+    let body = req.body
+
+    // Only allow valid emails
+
+    // Hash the password before inserting into DB
+
+    // Each of the following names reference the "name"
+    // attribute in the inputs of the form.
+    bodyModole.createBodyPart(
+            body.body
+
+            // We now store the hashed version of the password
+        )
+        .then((result) => {
+            res.status(200).json("body part created " + result.body)
+
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json("query error - failed to create sport")
+        })
+
+})
+if (req.session) {
+    logModel.createLog(
+        req.ip,
+        (JSON.stringify(req.session.user)),
+        req.session.user.email,
+        req.session.user.user_status,
+        (new Date().toISOString()),
+        req.method,
+
+    )
+} else {
+    res.redirect('/login')
+    res.alert("you must sign in")
+}
+
+
+
+
+
+module.exports = router
