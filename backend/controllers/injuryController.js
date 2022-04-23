@@ -42,22 +42,23 @@ router.get("/injury/:sport", (req, res) => {
             res.status(500).json("query error")
         })
 
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+
 
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
-
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 
 
@@ -88,21 +89,23 @@ router.post("/injury/create", (req, res) => {
             res.status(500).json("query error - failed to create injury")
         })
 
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
+})
+
 
 
 router.post("/injury/delete", (req, res) => {
@@ -122,21 +125,23 @@ router.post("/injury/delete", (req, res) => {
             console.log(error)
             res.status(500).json("failed to delete injury - query error")
         })
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+})
+
 
 
 
@@ -166,21 +171,22 @@ router.post("/injury/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update injuryy - query error")
         })
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 
 

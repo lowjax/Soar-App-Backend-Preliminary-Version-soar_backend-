@@ -22,21 +22,22 @@ router.get("/favorites", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 // Define an /api/books/:id endpoint that responds with
 // a specific book by id
@@ -57,22 +58,24 @@ router.get("/favorites/:ID", (req, res) => {
             res.status(500).json("query error")
         })
 
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+
 
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 
 
@@ -100,21 +103,23 @@ router.post("/favorites/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update favorites - query error")
         })
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+})
+
 
 router.post("/favorites/delete", (req, res) => {
     // Access the user id from the body of the request
@@ -133,21 +138,22 @@ router.post("/favorites/delete", (req, res) => {
             console.log(error)
             res.status(500).json("failed to delete favorites - query error")
         })
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 
 

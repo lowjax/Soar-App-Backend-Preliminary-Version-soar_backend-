@@ -21,18 +21,23 @@ router.get("/sport", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-}
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+})
+
 
 // Define an /api/books/:id endpoint that responds with
 // a specific book by id
@@ -52,20 +57,23 @@ router.get("/sport/:body", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 
 
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
-
-    )
-}
 
 
 
@@ -93,18 +101,23 @@ router.post("/sport/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update sport - query error")
         })
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-}
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+})
+
 
 router.post("/sport/delete", (req, res) => {
     // Access the user id from the body of the request
@@ -123,18 +136,23 @@ router.post("/sport/delete", (req, res) => {
             console.log(error)
             res.status(500).json("failed to delete favorites - query error")
         })
-})
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-}
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
+})
+
 
 
 router.post("/sport/create", (req, res) => {
@@ -163,22 +181,23 @@ router.post("/sport/create", (req, res) => {
             console.log(error)
             res.status(500).json("query error - failed to create sport")
         })
+        if (req.session) {
+            logModel.createLog(
+                req.ip,
+                (JSON.stringify(req.session.user)),
+                req.session.user.email,
+                req.session.user.user_status,
+                (new Date().toISOString()),
+                req.method,
+        
+            )
+        } else {
+            res.redirect('/login')
+            res.alert("you must sign in")
+        }
 
 })
-if (req.session) {
-    logModel.createLog(
-        req.ip,
-        (JSON.stringify(req.session.user)),
-        req.session.user.email,
-        req.session.user.user_status,
-        (new Date().toISOString()),
-        req.method,
 
-    )
-} else {
-    res.redirect('/login')
-    res.alert("you must sign in")
-}
 
 
 
