@@ -1,10 +1,21 @@
 // Access the database connection from database.js
 const db = require("../database")
-module.exports.getAllBodyPart = () => {
+module.exports.getBodyPart = () => {
     return db.query("SELECT * FROM body")
 }
 
+module.exports.createBodyPart = (body) => {
+    return db.query("INSERT INTO body (body) "
+        + `VALUES (?)`, [body])
+}
 
+module.exports.deleteBodyPart = (body) => {
+    return db.query("DELETE FROM sport WHERE body = ?", [body])
+}
+
+module.exports.updateBodyPart = (body) => {
+    return db.query("body = ?", [body])
+}
 
 
 // // Access the database connection from database.js

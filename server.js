@@ -72,7 +72,7 @@ server.listen(80, function () {
 // Setup our own access control middleware
 // Must happen after JSON and session middleware but before static files
 server.use((req, res, next) => {
-    console.log("terry")
+    console.log(req.body)
     // console.log(req.ip)
     // console.log(new Date())
     // console.log(req.method)

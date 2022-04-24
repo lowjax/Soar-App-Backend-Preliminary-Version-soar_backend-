@@ -4,7 +4,7 @@ const express = require("express")
 const router = express.Router()
 // Access the books model so that we can access
 // book data in this file.
-const sportModel = require("../models/sportModel")
+const bodyModel = require("../models/bodyModel")
 const logModel = require("../models/logModel")
 
 
@@ -12,7 +12,7 @@ const logModel = require("../models/logModel")
 // Define an /api/books endpoint that responds with
 // an array of all books.
 router.get("/body", (req, res) => {
-    sportModel.getBodyPart()
+    bodyModel.getBodyPart()
         .then((results) => {
             res.status(200).json(results)
         })
@@ -22,20 +22,21 @@ router.get("/body", (req, res) => {
             res.status(500).json("query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
+        logModel.createLog(
+            req.ip,
+            req.session,
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
 })
 
 
@@ -43,8 +44,9 @@ router.get("/body", (req, res) => {
 // a specific book by id
 
 // could be "/favorites/:content"
+
 router.get("/body", (req, res) => {
-    bodyModole.body(body)
+    bodyModel.body(body)
         .then((results) => {
             if (results.length > 0) {
                 res.status(200).json(results[0])
@@ -57,10 +59,11 @@ router.get("/body", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
         logModel.createLog(
             req.ip,
-            (JSON.stringify(req.session.user)),
+            req.session,
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -87,8 +90,8 @@ router.post("/body/update", (req, res) => {
     // Existing passwords that do start with $ are already hashed
 
     // Each of the names below reference the "name" attribute in the form
-    bodyModole.updateBodyPart(
-            sport.sport)
+    bodyModel.updateBodyPart(
+            body.body)
 
         .then((result) => {
             if (result.affectedRows > 0) {
@@ -102,20 +105,21 @@ router.post("/body/update", (req, res) => {
             res.status(500).json("failed to update body - query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
+        logModel.createLog(
+            req.ip,
+            req.session,
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
 })
 
 
@@ -126,7 +130,7 @@ router.post("/body/delete", (req, res) => {
     let body = req.body.body
 
     // Ask the model to delete the user with userId
-    bodyModole.deleteBodyPart(body)
+    bodyModel.deleteBodyPart(body)
         .then((result) => {
             if (result.affectedRows > 0) {
                 res.status(200).json("body part deleted")
@@ -139,20 +143,21 @@ router.post("/body/delete", (req, res) => {
             res.status(500).json("failed to delete favorites - query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
+        logModel.createLog(
+            req.ip,
+            req.session,
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
 })
 
 
@@ -171,7 +176,7 @@ router.post("/body/create", (req, res) => {
 
     // Each of the following names reference the "name"
     // attribute in the inputs of the form.
-    bodyModole.createBodyPart(
+    bodyModel.createBodyPart(
             body.body
 
             // We now store the hashed version of the password
@@ -182,23 +187,24 @@ router.post("/body/create", (req, res) => {
         })
         .catch((error) => {
             console.log(error)
-            res.status(500).json("query error - failed to create sport")
+            res.status(500).json("query error - failed to create body part")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
+        logModel.createLog(
+            req.ip,
+            req.session,
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
 
 })
 

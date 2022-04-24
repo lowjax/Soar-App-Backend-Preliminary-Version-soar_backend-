@@ -174,7 +174,8 @@ router.post("/sport/create", (req, res) => {
             // We now store the hashed version of the password
         )
         .then((result) => {
-            res.status(200).json("sport created " + result.injury)
+            res.status(200).json("sport created ")
+            // res.status(200).json("sport created " + result.injury)
 
         })
         .catch((error) => {

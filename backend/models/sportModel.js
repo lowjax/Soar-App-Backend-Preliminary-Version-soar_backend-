@@ -9,7 +9,7 @@ module.exports.getSportByBody= (body) => {
 }
 
 module.exports.deleteSport = (sport) => {
-    return db.query("DELETE FROM port WHERE sport = ?", [sport])
+    return db.query("DELETE FROM sport WHERE sport = ?", [sport])
 }
 
 module.exports.updateSport = (sport) => {
