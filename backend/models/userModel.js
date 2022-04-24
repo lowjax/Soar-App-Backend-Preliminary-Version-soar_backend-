@@ -19,8 +19,9 @@ module.exports.getUserByPhone = (phone) => {
 
 }
 
-module.exports.updateUser = (email, first_name, last_name, phone, profilePic_path, date_joined, user_status, password) => {
-    return db.query("UPDATE users SET email = ?, first_name = ?, last_name = ?, phone = ?, profilePic_path = ?, date_joined = ?, user_status, password = ? WHERE email = ?", [email, first_name, last_name, phone, profilePic_path, date_joined, user_status, password])
+module.exports.updateUser = (first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email) => {
+    // console.log(first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email)
+    return db.query("UPDATE users SET first_name = ?, last_name = ?, phone = ?, profilePic_path = ?, date_joined = ?, user_status = ?, password = ? WHERE email = ?", [first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email])
 }
 
 module.exports.deleteUser = (email) => {

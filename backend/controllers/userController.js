@@ -18,35 +18,40 @@ router.get("/users", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
+const userLoggedIn = req.session.user = !null
 
-    if (req.session) {
+    if (userLoggedIn == true) {
+        
+        console.log(req.session.user.email)
         logModel.createLog(
             req.ip,
-            (JSON.stringify(req.session.user)),
+            req.sessionID,
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
             req.method,
 
         )
-    } else {
+    } 
+    else {
         res.redirect('/login')
         res.alert("you must sign in")
+        res.alert('user not logged in')
     }
 
 
     // console.log(req.ip)
     // console.log(new Date().toISOString())
     // console.log(req.method)
-    // // console.log(req.session.user.email)
-    // // console.log(req.session.user.user_status)
+    // console.log(req.session.user.email)
+    // console.log(req.session.user.user_status)
     // console.log(JSON.stringify(req.session.user))
-    // if (
-    //     req.session.user
-    // ){
-    //     console.log(req.session.user.email)
-    //     console.log(req.session.user.user_status)
-    // }
+    if (
+        req.session.user
+    ){
+        console.log(req.session.user.email)
+        console.log(req.session.user.user_status)
+    }
 })
 
 // router.post("/users/create", (req, res) => {
@@ -119,7 +124,7 @@ router.post("/users/create", (req, res) => {
             // We now store the hashed version of the password
         )
         .then((result) => {
-            res.status(200).json("user created with email " + result.insertemail)
+            res.status(200).json("user created with email " + user.email)
 
             // Log user creation
         })
@@ -127,7 +132,8 @@ router.post("/users/create", (req, res) => {
             console.log(error)
             res.status(500).json("query error - failed to create user")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
         logModel.createLog(
             req.ip,
             (JSON.stringify(req.session.user)),
@@ -160,7 +166,8 @@ router.get("/users/:email", (req, res) => {
             console.log(error)
             res.status(500).json("failed to get user - query error")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true){
         logModel.createLog(
             req.ip,
             (JSON.stringify(req.session.user)),
@@ -171,15 +178,22 @@ router.get("/users/:email", (req, res) => {
 
         )
     } else {
+
+        logModel.createLog(
+            req.ip,
+            req.method,
+
+        )
         res.redirect('/login')
         res.alert("you must sign in")
     }
 })
 
 // Define an /api/users/update endpoint that updates an existing user
-router.post("/users/update", (req, res) => {
+router.patch("/users/update", (req, res) => {
     // the req.body represents the posted json data
     let user = req.body
+    console.log(req.body)
 
     let password = user.password
 
@@ -191,13 +205,14 @@ router.post("/users/update", (req, res) => {
 
     // Each of the names below reference the "name" attribute in the form
     userModel.updateUser(
-            user.email,
             user.first_name,
             user.last_name,
             user.phone,
-            user.username,
+            user.profilePic_path,
+            user.date_joined,
+            user.user_status,
             password, // Use the hashed password
-            user.user_status
+            user.email
         )
         .then((result) => {
             if (result.affectedRows > 0) {
@@ -210,7 +225,8 @@ router.post("/users/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update user - query error")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true){
         logModel.createLog(
             req.ip,
             (JSON.stringify(req.session.user)),
@@ -226,9 +242,9 @@ router.post("/users/update", (req, res) => {
     }
 })
 
-router.post("/users/delete", (req, res) => {
+router.delete("/users/delete", (req, res) => {
     // Access the user id from the body of the request
-    let userId = req.body.email
+    let email = req.body.email
 
     // Ask the model to delete the user with userId
     userModel.deleteUser(email)
@@ -243,10 +259,11 @@ router.post("/users/delete", (req, res) => {
             console.log(error)
             res.status(500).json("failed to delete user - query error")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true)  {
         logModel.createLog(
             req.ip,
-            (JSON.stringify(req.session.user)),
+            req.session,
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -277,8 +294,9 @@ router.post("/users/login", (req, res) => {
                     req.session.user = {
                         email: user.email,
                         user_status: user.user_status,
-                    }
-                    // console.log(req.session.user)
+                    } 
+                    console.log(req.session.user.email,req.session.user.user_status)
+                    
 
                     // let the client know login was successful
                     res.status(200).json("login successful")
@@ -296,7 +314,8 @@ router.post("/users/login", (req, res) => {
             console.log(error)
             res.status(500).json("failed to get user - query error")
         })
-    if (req.session) {
+        const userLoggedIn = req.session.user = !null
+        if (userLoggedIn == true){
         logModel.createLog(
             req.ip,
             (JSON.stringify(req.session.user)),
@@ -307,13 +326,20 @@ router.post("/users/login", (req, res) => {
 
         )
     } else {
+
+        logModel.createLog(
+            req.ip,
+            req.method,
+
+        ) 
         res.redirect('/login')
         res.alert("you must sign in")
     }
 })
 
 router.post("/users/logout", (req, res) => {
-    if (req.session) {
+    const userLoggedIn = req.session.user = !null
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
             (JSON.stringify(req.session.user)),

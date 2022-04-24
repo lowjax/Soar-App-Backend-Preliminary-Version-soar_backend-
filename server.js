@@ -16,6 +16,8 @@ server.use(express.urlencoded({
     extended: true
 }))
 
+// console.log(req.session.user.email)
+
 // Enable session middleware so that we have state
 server.use(session({
     secret: 'secret phrase abc123',
