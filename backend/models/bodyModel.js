@@ -10,11 +10,11 @@ module.exports.createBodyPart = (body) => {
 }
 
 module.exports.deleteBodyPart = (body) => {
-    return db.query("DELETE FROM sport WHERE body = ?", [body])
+    return db.query("DELETE FROM body WHERE body = ?", [body])
 }
 
 module.exports.updateBodyPart = (body) => {
-    return db.query("body = ?", [body])
+    return db.query("UPDATE boyd WHERE body = ?", [body])
 }
 
 

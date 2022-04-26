@@ -22,11 +22,18 @@ router.get("/favorites", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -34,8 +41,8 @@ router.get("/favorites", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
@@ -59,11 +66,18 @@ router.get("/favorites/:ID", (req, res) => {
             res.status(500).json("query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -71,8 +85,8 @@ router.get("/favorites/:ID", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 
 
@@ -82,7 +96,7 @@ router.get("/favorites/:ID", (req, res) => {
 
 
 // Define an /api/users/update endpoint that updates an existing user
-router.post("/favorites/update", (req, res) => {
+router.patch("/favorites/update", (req, res) => {
     // the req.body represents the posted json data
     let ID = req.body
 
@@ -106,11 +120,18 @@ router.post("/favorites/update", (req, res) => {
             res.status(500).json("failed to update favorites - query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -118,13 +139,13 @@ router.post("/favorites/update", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
 
-router.post("/favorites/delete", (req, res) => {
+router.delete("/favorites/delete", (req, res) => {
     // Access the user id from the body of the request
     let ID = req.body.ID
 
@@ -132,7 +153,7 @@ router.post("/favorites/delete", (req, res) => {
     favoritesModel.deleteFavorites(ID)
         .then((result) => {
             if (result.affectedRows > 0) {
-                res.status(200).json("content favorites")
+                res.status(200).json("favorite deleted")
             } else {
                 res.status(404).json("favorites not found")
             }
@@ -141,11 +162,18 @@ router.post("/favorites/delete", (req, res) => {
             console.log(error)
             res.status(500).json("failed to delete favorites - query error")
         })
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -153,8 +181,8 @@ router.post("/favorites/delete", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 

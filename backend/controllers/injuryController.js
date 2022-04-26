@@ -42,11 +42,18 @@ router.get("/injury/:sport", (req, res) => {
             res.status(500).json("query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -54,10 +61,9 @@ router.get("/injury/:sport", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
-
 
 })
 
@@ -65,6 +71,7 @@ router.get("/injury/:sport", (req, res) => {
 
 router.post("/injury/create", (req, res) => {
     // Only allow admins to use this endpoint
+    console.log(req.body)
 
 
     // req.body represents the form field data (json in body of fetch)
@@ -79,10 +86,12 @@ router.post("/injury/create", (req, res) => {
     injuryModel.createInjury(
             injury.injury
 
-            // We now store the hashed version of the password
+     
         )
         .then((result) => {
             res.status(200).json("injury created " + result.injury)
+            console.log(result.injury)
+            
 
         })
         .catch((error) => {
@@ -90,11 +99,18 @@ router.post("/injury/create", (req, res) => {
             res.status(500).json("query error - failed to create injury")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -102,14 +118,14 @@ router.post("/injury/create", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
 
 
-router.post("/injury/delete", (req, res) => {
+router.delete("/injury/delete", (req, res) => {
     // Access the user id from the body of the request
     let injury = req.body.injury
 
@@ -127,11 +143,18 @@ router.post("/injury/delete", (req, res) => {
             res.status(500).json("failed to delete injury - query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -139,8 +162,8 @@ router.post("/injury/delete", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
@@ -150,7 +173,7 @@ router.post("/injury/delete", (req, res) => {
 
 
 // Define an /api/users/update endpoint that updates an existing user
-router.post("/injury/update", (req, res) => {
+router.patch("/injury/update", (req, res) => {
     // the req.body represents the posted json data
     let file_name = req.body
 
@@ -173,11 +196,18 @@ router.post("/injury/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update injuryy - query error")
         })
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -185,8 +215,8 @@ router.post("/injury/update", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 

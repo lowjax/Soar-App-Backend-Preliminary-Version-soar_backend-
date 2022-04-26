@@ -5,7 +5,7 @@ module.exports.getAllContent = () => {
 }
 
 module.exports.createContent= (injury) => {
-    return db.query("SELECT * FROM content WHERE sport = ?", [injury])
+    return db.query("INSERT INTO content WHERE sport = ?", [injury])
 }
 
 module.exports.createContent = (file_name) => {

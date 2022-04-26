@@ -22,11 +22,18 @@ router.get("/body", (req, res) => {
             res.status(500).json("query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -34,8 +41,8 @@ router.get("/body", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
@@ -59,11 +66,18 @@ router.get("/body", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -71,8 +85,8 @@ router.get("/body", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 
 
@@ -81,7 +95,7 @@ router.get("/body", (req, res) => {
 
 
 // Define an /api/users/update endpoint that updates an existing user
-router.post("/body/update", (req, res) => {
+router.patch("/body/update", (req, res) => {
     // the req.body represents the posted json data
     let ID = req.body
 
@@ -104,12 +118,18 @@ router.post("/body/update", (req, res) => {
             console.log(error)
             res.status(500).json("failed to update body - query error")
         })
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -117,15 +137,15 @@ router.post("/body/update", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
 
 
 
-router.post("/body/delete", (req, res) => {
+router.delete("/body/delete", (req, res) => {
     // Access the user id from the body of the request
     let body = req.body.body
 
@@ -143,11 +163,18 @@ router.post("/body/delete", (req, res) => {
             res.status(500).json("failed to delete favorites - query error")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -155,8 +182,8 @@ router.post("/body/delete", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 })
 
@@ -190,11 +217,18 @@ router.post("/body/create", (req, res) => {
             res.status(500).json("query error - failed to create body part")
         })
 
-        const userLoggedIn = req.session.user = !null
-        if (userLoggedIn == true)  {
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
         logModel.createLog(
             req.ip,
-            req.session,
+            (JSON.stringify(req.session.user)),
             req.session.user.email,
             req.session.user.user_status,
             (new Date().toISOString()),
@@ -202,8 +236,8 @@ router.post("/body/create", (req, res) => {
 
         )
     } else {
-        res.redirect('/login')
-        res.alert("you must sign in")
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
     }
 
 })

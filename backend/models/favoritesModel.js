@@ -15,3 +15,5 @@ module.exports.deleteFavorites = (ID) => {
 module.exports.updateFavorites = (ID) => {
     return db.query("ID = ?", [ID])
 }
+
+/// create insert into favorites query ***********

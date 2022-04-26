@@ -12,6 +12,7 @@ module.exports.deleteSport = (sport) => {
     return db.query("DELETE FROM sport WHERE sport = ?", [sport])
 }
 
+
 module.exports.updateSport = (sport) => {
     return db.query("sport = ?", [sport])
 }

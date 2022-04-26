@@ -22,20 +22,28 @@ router.get("/sport", (req, res) => {
             res.status(500).json("query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        console.log("not logged in")
+        res.redirect('/login')
+    }
 })
 
 
@@ -57,20 +65,28 @@ router.get("/sport/:body", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        console.log("not logged in")
+        res.redirect('/login')
+    }
 
 
 })
@@ -78,7 +94,7 @@ router.get("/sport/:body", (req, res) => {
 
 
 // Define an /api/users/update endpoint that updates an existing user
-router.post("/sport/update", (req, res) => {
+router.patch("/sport/update", (req, res) => {
     // the req.body represents the posted json data
     let ID = req.body
 
@@ -102,26 +118,35 @@ router.post("/sport/update", (req, res) => {
             res.status(500).json("failed to update sport - query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        console.log("not logged in")
+        res.redirect('/login')
+    }
 })
 
 
-router.post("/sport/delete", (req, res) => {
+router.delete("/sport/delete", (req, res) => {
     // Access the user id from the body of the request
     let sport = req.body.sport
+    console.log(sport)
 
     // Ask the model to delete the user with userId
     sportModel.deleteSport(sport)
@@ -134,23 +159,31 @@ router.post("/sport/delete", (req, res) => {
         })
         .catch((error) => {
             console.log(error)
-            res.status(500).json("failed to delete favorites - query error")
+            res.status(500).json("failed to delete sport - query error")
         })
 
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        console.log("not logged in")
+        res.redirect('/login')
+    }
 })
 
 
@@ -182,20 +215,28 @@ router.post("/sport/create", (req, res) => {
             console.log(error)
             res.status(500).json("query error - failed to create sport")
         })
-        if (req.session) {
-            logModel.createLog(
-                req.ip,
-                (JSON.stringify(req.session.user)),
-                req.session.user.email,
-                req.session.user.user_status,
-                (new Date().toISOString()),
-                req.method,
-        
-            )
-        } else {
-            res.redirect('/login')
-            res.alert("you must sign in")
-        }
+    let userLoggedIn
+    if (req.session.user != null) {
+        userLoggedIn = true
+
+    } else {
+        userLoggedIn = false
+    }
+
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+        console.log("not logged in")
+        // res.redirect('/api/user/login')
+    }
 
 })
 
