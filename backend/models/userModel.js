@@ -14,6 +14,10 @@ module.exports.getUserByEmail = (email) => {
     return db.query("SELECT * FROM users WHERE email = ?", [email])
 }
 
+module.exports.login = (email, password) => {
+    return db.query("SELECT * FROM users WHERE email = ?", [email])
+}
+
 module.exports.getUserByPhone = (phone) => {
     return db.query("SELECT * FROM users WHERE phone = ?", [phone])
 

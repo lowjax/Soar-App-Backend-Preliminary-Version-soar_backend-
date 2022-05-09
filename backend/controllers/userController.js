@@ -7,6 +7,7 @@ const router = express.Router()
 
 const userModel = require("../models/userModel")
 const logModel = require("../models/logModel")
+// const session = require("express-session")
 
 router.get("/users", (req, res) => {
 
@@ -303,21 +304,35 @@ router.post("/users/login", (req, res) => {
     let login = req.body
     //    console.log(login)
 
-    userModel.getUserByEmail(login.email)
+    userModel.login(login.email, login.password)
         .then((results) => {
             // console.log(results)
             if (results.length > 0) {
                 // We found a user with that username,
                 // next we check their password.
                 let user = results[0]
-
+                console.log('Form Password: ', login.password)
+                console.log('Database Password: ', user.password)
                 // Check if the login password matches the users password hash
                 if (bcrypt.compareSync(login.password, user.password)) {
                     // setup session information
-                    req.session.user = {
-                        email: user.email,
-                        user_status: user.user_status,
-                    }
+
+                    // req.session.user = {
+                    //     email: user.email,
+                    //     user_status: user_status
+                    // }
+                    // req.session=req.session;
+                    req.session.username=login.email;
+                    req.session.loginstatus=true;
+
+                    //update database with loginstatus
+                    
+
+                    console.log('Request Body Info: ', req.body)
+                    console.log('Request Session Info: ',req.session)
+
+                    //session.userid=req.body.email;
+                    //session.userstatus=req.session.user_status;
                     // console.log(req.session)
                     // console.log(req.session.user.email)
                     // console.log(req.session.user.user_status)

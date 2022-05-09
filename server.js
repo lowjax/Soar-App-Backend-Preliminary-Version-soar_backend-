@@ -1,9 +1,10 @@
 const rateLimit = require('express-rate-limit')
 const express = require("express")
 const session = require("express-session")
+const cookieParser = require("cookie-parser")
 
 const server = express()
-const port = 1234
+const port = 1235
 //importing express session to declare the variables
 // const rateLimit = require('express-rate-limit')
 const slowDown = require("express-slow-down");
@@ -16,18 +17,20 @@ server.use(express.urlencoded({
     extended: true
 }))
 
+server.use(cookieParser())
 // console.log(req.session.user.email)
 
 // Enable session middleware so that we have state
 server.use(session({
     secret: 'secret phrase abc123',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
-        secure: false
+        secure: false,
+        username: null,
+        loginstatus: false,
     } // Should be turned to true in production (HTTPS only)
 }))
-
 
 
 // exress rate limiiting *********************
@@ -49,16 +52,20 @@ const speedLimiter = slowDown({
 server.use(speedLimiter, limiter);
 // server.user(limiter)
 
-const corsOptions = {
-    origin: 'localhost',
-    optionsSuccessStatus: 200 // some legacy browser (IE11, various smartTvs) choke on 204
-}
-server.use(cors(corsOptions))
+// const corsOptions = {
+//     origin: 'http://localhost:1234/',
+//     optionsSuccessStatus: 200 // some legacy browser (IE11, various smartTvs) choke on 204
+// }
+// server.use(cors(corsOptions))
 
-server.listen(80, function () {
-    console.log('CORS-enabled web server listening on port 80')
-})
+// server.listen(80, function () {
+//     console.log('CORS-enabled web server listening on port 80')
+// })
 
+// cors online help
+server.use(cors({
+    origin: '*'
+}));
 
 
 // app.use(speedLimiter);
