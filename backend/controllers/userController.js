@@ -390,7 +390,8 @@ router.post("/users/login", (req, res) => {
 router.post("/users/logout", (req, res) => {
     // const userLoggedIn = req.session.user = !null
     let userLoggedIn
-    if (req.session.user != null) {
+    console.log('Logout Stuff1: ', userLoggedIn)
+    if (req.session.loginstatus === true) {
         userLoggedIn = true
 
     } else {
@@ -398,23 +399,21 @@ router.post("/users/logout", (req, res) => {
     }
 
     if (userLoggedIn == true) {
-        logModel.createLog(
-            req.ip,
-            (JSON.stringify(req.session.user)),
-            req.session.user.email,
-            req.session.user.user_status,
-            (new Date().toISOString()),
-            req.method,
+        // logModel.createLog(
+        //     req.ip,
+        //     (JSON.stringify(req.session)),
+        //     req.session.username,
+        //     req.session.user.user_status,
+        //     (new Date().toISOString()),
+        //     req.method,
 
-        )
+        // )
+        req.session.destroy()
+        res.status(200).json("logged out")
     } else {
         console.log("not logged in")
-        // res.redirect('/api/user/login')
+        res.redirect('/api/user/login')
     }
-
-
-    req.session.destroy()
-    res.status(200).json("logged out")
 })
 
 

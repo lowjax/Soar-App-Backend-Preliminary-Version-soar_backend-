@@ -3,13 +3,27 @@ const express = require("express")
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
 
+
+const expressAccessToken = require('express-access-token');
+
+
+
 const server = express()
+
+server.use(cookieParser());
+
+///acess token 
+
+
+
+
+
 const port = 1235
 //importing express session to declare the variables
 // const rateLimit = require('express-rate-limit')
 const slowDown = require("express-slow-down");
 const cors = require('cors')
-const logModel = require("./backend/models/logModel")
+const logModel = require("./backend/models/logModel") 
 
 // Enable middleware for JSON and urlencoded form data
 server.use(express.json())
