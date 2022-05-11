@@ -11,7 +11,18 @@ const logModel = require("../models/logModel")
 
 router.get("/users", (req, res) => {
 
-    userModel.getAllUsers()
+    // userModel.getAllUsers()
+    //     .then((results) => {
+    //         res.status(200).json(results)
+    //     })
+    //     .catch((error) => {
+    //         console.log(error)
+    //         res.status(500).json("query error")
+    //     })
+    const userLoggedIn = req.session.user = !null
+
+    if (userLoggedIn == true) {
+        userModel.getAllUsers()
         .then((results) => {
             res.status(200).json(results)
         })
@@ -19,10 +30,6 @@ router.get("/users", (req, res) => {
             console.log(error)
             res.status(500).json("query error")
         })
-    const userLoggedIn = req.session.user = !null
-
-    if (userLoggedIn == true) {
-
         console.log(req.session.user.email)
         logModel.createLog(
             req.ip,
@@ -338,6 +345,7 @@ router.post("/users/login", (req, res) => {
                     // console.log(req.session.user.user_status)
 
 
+                    console.log(req.session.loginstatus)
                     // let the client know login was successful
                     res.status(200).json("login successful")
                 } else {
@@ -391,6 +399,7 @@ router.post("/users/logout", (req, res) => {
     // const userLoggedIn = req.session.user = !null
     let userLoggedIn
     console.log('Logout Stuff1: ', userLoggedIn)
+    // console.log(req.session)
     if (req.session.loginstatus === true) {
         userLoggedIn = true
 
@@ -412,7 +421,7 @@ router.post("/users/logout", (req, res) => {
         res.status(200).json("logged out")
     } else {
         console.log("not logged in")
-        res.redirect('/api/user/login')
+        // res.redirect('/api/user/login')
     }
 })
 
