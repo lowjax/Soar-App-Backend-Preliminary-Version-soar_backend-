@@ -117,7 +117,7 @@ router.post("/users/create", (req, res) => {
 
     // Hash the password before inserting into DB
     let hashedPassword = bcrypt.hashSync(user.password, 6)
-    // console.log(hashedPassword)
+    console.log(hashedPassword)
 
     // Each of the following names reference the "name"
     // attribute in the inputs of the form.

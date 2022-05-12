@@ -2,6 +2,7 @@ const rateLimit = require('express-rate-limit')
 const express = require("express")
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
+const bcrypt = require ('bcrypt');
 
 
 const expressAccessToken = require('express-access-token');
@@ -41,8 +42,8 @@ server.use(session({
     saveUninitialized: true,
     cookie: {
         secure: false,
-        username: null,
-        loginstatus: false,
+        // username: null,
+        // loginstatus: false,
     } // Should be turned to true in production (HTTPS only)
 }))
 
@@ -78,7 +79,8 @@ server.use(speedLimiter, limiter);
 
 // cors online help
 server.use(cors({
-    origin: '*'
+    origin: 'http://localhost:1234',
+    credentials: true
 }));
 
 
