@@ -52,7 +52,7 @@ router.get("/body", (req, res) => {
 
 // could be "/favorites/:content"
 
-router.get("/body", (req, res) => {
+router.post("/body", (req, res) => {
     bodyModel.body(body)
         .then((results) => {
             if (results.length > 0) {

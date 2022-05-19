@@ -7,7 +7,8 @@ const router = express.Router()
 
 const userModel = require("../models/userModel")
 const logModel = require("../models/logModel")
-// const session = require("express-session")
+const { request } = require("express")
+const session = require("express-session")
 
 router.get("/users", (req, res) => {
 
@@ -171,7 +172,8 @@ router.post("/users/create", (req, res) => {
 
 // !!! You should add a comment here explaining this block in your own words.
 router.get("/users/:email", (req, res) => {
-    userModel.getUserByEmail(req.session.user.email)
+    console.log(req.params.email)
+    userModel.getUserByEmail(req.params.email)
         .then((results) => {
             if (results.length > 0) {
                 res.status(200).json(results[0])
@@ -308,46 +310,59 @@ router.delete("/users/delete", (req, res) => {
 })
 
 router.post("/users/login", (req, res) => {
+    // console.log(req)
     let login = req.body
-    //    console.log(login)
+       console.log(login)
 
-    userModel.login(login.email, login.password)
+    userModel.getUserByEmail(login.email)
         .then((results) => {
-            // console.log(results)
+            console.log(results)
             if (results.length > 0) {
                 // We found a user with that username,
                 // next we check their password.
                 let user = results[0]
-                console.log('Form Password: ', login.password)
-                console.log('Database Password: ', user.password)
+                console.log(user)
+                // console.log('Form Password: ', login.password)
+                // console.log('Database Password: ', user.password)
                 // Check if the login password matches the users password hash
                 if (bcrypt.compareSync(login.password, user.password)) {
-                    // setup session information
 
-                    // req.session.user = {
-                    //     email: user.email,
-                    //     user_status: user_status
+                    req.session.user = {
+                        email: user.email,
+                        first_name: user.first_name,
+                        last_name: user.last_name,
+                        user_status: user.user_status
+                        // userID: user.userID,
+                        // accessRights: user.accessRights,
+                    }
+                    console.log(req.session.user.email, + "login", req.session.user.user_status)
+
+                    // //setup session to login user
+                    // request.session.user = {
+                        // user_status: user.user_status,
+                        // email: user.email,
+                        // loginstatus: true,
+                        // password: user.password
                     // }
-                    // req.session=req.session;
-                    req.session.username=login.email;
-                    req.session.loginstatus=true;
+                  
+                    // req.session.username=login.email;
+                    // req.session.loginstatus=true;
+                    
 
                     //update database with loginstatus
                     
 
-                    console.log('Request Body Info: ', req.body)
-                    console.log('Request Session Info: ',req.session)
+                    // console.log('Request Body Info: ', req.body)
+                    // console.log('Request Session Info: ',req.session)
 
-                    //session.userid=req.body.email;
-                    //session.userstatus=req.session.user_status;
-                    // console.log(req.session)
-                    // console.log(req.session.user.email)
-                    // console.log(req.session.user.user_status)
+                  
 
-
-                    console.log(req.session.loginstatus)
+                    // console.log(req.session.loginstatus)
                     // let the client know login was successful
-                    res.status(200).json("login successful")
+                    // res.status(200).json({message:"login successful", user_status: req.session.user.user_status })
+                        res.status(200).json({message:"login successful", user_status: req.session.user.user_status, email:req.session.user.email})
+                        
+                    // res.status(200).json({status:"login successful", user_status: user.user_status } )
                 } else {
                     // let teh client know login failed
                     res.status(401).json("login failed")
@@ -362,51 +377,22 @@ router.post("/users/login", (req, res) => {
             console.log(error)
             res.status(500).json("failed to get user - query error")
         })
-    //         // console.log(req.session)
-    //         // const userLoggedIn = req.session.user = !null
-    //         let userLoggedIn
-    //         if (req.session.user != null) {
-    //             userLoggedIn = true
 
-    //         } else {
-    //             userLoggedIn = false
-    //         }
-    //         console.log(userLoggedIn)
-    //         if (userLoggedIn == true){
-    //             console.log(req.session)
-    //         logModel.createLog(
-    //             req.ip,
-    //             (JSON.stringify(req.session.user)),
-    //             req.session.user.email,
-    //             req.session.user.user_status,
-    //             (new Date().toISOString()),
-    //             req.method,
-
-    //         )
-    //     } else {
-    // console.log("Not Logged In")
-    //         logModel.createLog(
-    //             req.ip,
-    //             req.method,
-
-    //         ) 
-    //         // res.redirect('/login')
-    //         // res.alert("you must sign in")
-    //     }
 })
 
 router.post("/users/logout", (req, res) => {
     // const userLoggedIn = req.session.user = !null
-    let userLoggedIn
+    let userLoggedIn = req.session.user !== null
     console.log('Logout Stuff1: ', userLoggedIn)
+    console.log('Logout stuff2: ', req.session)
     // console.log(req.session)
-    if (req.session.loginstatus === true) {
+    if (req.session.user.user_status != null) {
         userLoggedIn = true
 
     } else {
         userLoggedIn = false
     }
-
+    console.log("before check: ",userLoggedIn)
     if (userLoggedIn == true) {
         // logModel.createLog(
         //     req.ip,
@@ -417,6 +403,7 @@ router.post("/users/logout", (req, res) => {
         //     req.method,
 
         // )
+        console.log("just before destroy :)")
         req.session.destroy()
         res.status(200).json("logged out")
     } else {

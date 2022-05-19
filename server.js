@@ -56,6 +56,8 @@ const limiter = rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
+server.use(limiter);
+
 // Apply the rate limiting middleware to all requests
 const speedLimiter = slowDown({
     windowMs: 1000,
@@ -64,7 +66,7 @@ const speedLimiter = slowDown({
 });
 
 // apply to all request
-server.use(speedLimiter, limiter);
+server.use(speedLimiter);
 // server.user(limiter)
 
 // const corsOptions = {
@@ -134,6 +136,131 @@ server.use((req, res, next) => {
     //     }
     // }
 })
+// // dallas start
+
+// server.use((req, res, next) => {
+//     console.log(`${req.method} - ${req.url},`);
+
+//     // the user is logged in if the have session data
+//     let userLoggedIn = req.session.user !=null
+//     console.log(userLoggedIn)
+//     //define a list of allowed urls for non-logged in users
+//     let allowedURLs = [
+//      "/login.html",
+//      "/api/users/login",
+//     //  "/api/users/logout",
+//     //  "/logout.html",
+     
+//     ]
+
+
+
+//     let adminOnlyURLS = [
+//         "/IndexAdmin",
+//         "/SelectionAdmin"
+//      ]
+//     // if the user is logged in 
+//     if (userLoggedIn) {
+//         // let them through
+//         if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights != "admin") {
+//             res.redirect("/login.html");
+//         } else {
+//             next()
+//         }
+        
+//     } else {
+//         if (allowedURLs.includes(req.originalUrl)) {
+//             //allows the guest user through
+//             next()
+//     } else {
+//             //if not allowed - reditect to the login page
+//             res.redirect("/login.html")
+//         }
+//     }  
+        
+// })
+
+
+// // dallas end
+
+// server.use((req, res, next) => {
+//     console.log(req.url, req.method)
+//     const routes ={
+//     'unathorised' : [
+//             "/login",
+//             "/logout",
+//             "/api/users/logout",
+//             "/api/login",
+//             "/api/users/login",
+//             "/api/users/create"
+//     ],
+
+//         'admin' : [
+//             "/api/users/create",
+//             "login",
+//             "/api/users/logout",
+//             "/api/users/login",
+//             "/boostrap.min.css",
+//             "/Contact-Form-Clean.css",
+//             "/Login-Form-Clean.css",
+//             "/Navigation-Clean.css",
+//             "/Pretty-Registration-Form.css",
+//             "/style.css",
+//             "/style.scss",
+//             "/LogoutAdmin",
+//             "/NavbarAdmin",
+//             "/ThemeAdmin",
+//             "/SelectionAdmin",
+//             "/ContentcontainerAdmin",
+//             "/CreateAccountAdmin",
+//             "/IndexAdmin",
+//             "/FavoritesAdmin",
+//             "/api/users",
+//             "/api/users/update",
+//             "/api/users/delete",
+//             "/api/users/create",
+//             "/api/sport",
+//             "/api/sport/update",
+//             "/api/sport/delete",
+//             "/api/sport/create",
+//             "/api/injury",
+//             "/api/favorites/update",
+//             "/api/injury/delete",
+//             "/api/injury/:ID",
+//             "/api/content",
+//             "/api/content/create",
+//             "/api/content/update",
+//             "/api/content/delete",
+//             "/api/body/",
+//             "/api/body/create",
+//             "/api/body/update",
+//             "/api/body/delete"
+//         ]
+//     }
+//     let user_status = "unathorised"
+//     if (req.session.user) {
+//         console.log(user_status, req.session.user.email,req.session.user.user_status )
+//         user_status = req.session.user.user_status
+//     }
+
+//     // check if user role has routes defined for it
+// if (user_status in routes) {
+//     const allowed_routes = routes[user_status]
+
+//     //check if the requested url is a defined route for this user role
+//     if (allowed_routes.some(url => req.originalUrl.startsWith(url))) {
+//         // allow request to go through
+//         next()
+//     } else {
+//         // stop the request and respond with forbidden
+//         res.status(403).json("access forbidden")
+//     } 
+//     } else {
+//         // stop request and respond with not authenticated
+//         res.status(401).json("server client not authenticated")
+// }
+// })
+
 
 // Serve static frontend resources
 server.use(express.static("frontend"))
@@ -158,7 +285,8 @@ server.use("/api", favoritesController)
 // const logController = require("./backend/controllers/logController")
 // server.use("/api", logController)
 
-const BodyController = require("./backend/controllers/BodyController")
+const BodyController = require("./backend/controllers/BodyController");
+const { response } = require('express');
 server.use("/api", BodyController)
 
 
@@ -166,3 +294,12 @@ server.use("/api", BodyController)
 server.listen(port, () => {
     console.log("Backend listening on http://localhost:" + port)
 })
+
+
+
+
+
+
+
+
+// authentication end
