@@ -138,47 +138,47 @@ server.use((req, res, next) => {
 })
 // // dallas start
 
-// server.use((req, res, next) => {
-//     console.log(`${req.method} - ${req.url},`);
+server.use((req, res, next) => {
+    console.log(`${req.method} - ${req.url},`);
 
-//     // the user is logged in if the have session data
-//     let userLoggedIn = req.session.user !=null
-//     console.log(userLoggedIn)
-//     //define a list of allowed urls for non-logged in users
-//     let allowedURLs = [
-//      "/login.html",
-//      "/api/users/login",
-//     //  "/api/users/logout",
-//     //  "/logout.html",
+    // the user is logged in if the have session data
+    let userLoggedIn = req.session.user !=null
+    console.log(userLoggedIn)
+    //define a list of allowed urls for non-logged in users
+    let allowedURLs = [
+     "/login.html",
+     "/api/users/login",
+    //  "/api/users/logout",
+    //  "/logout.html",
      
-//     ]
+    ]
 
 
 
-//     let adminOnlyURLS = [
-//         "/IndexAdmin",
-//         "/SelectionAdmin"
-//      ]
-//     // if the user is logged in 
-//     if (userLoggedIn) {
-//         // let them through
-//         if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights != "admin") {
-//             res.redirect("/login.html");
-//         } else {
-//             next()
-//         }
+    let adminOnlyURLS = [
+        "/IndexAdmin",
+        "/SelectionAdmin"
+     ]
+    // if the user is logged in 
+    if (userLoggedIn) {
+        // let them through
+        if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights != "admin") {
+            res.redirect("/login.html");
+        } else {
+            next()
+        }
         
-//     } else {
-//         if (allowedURLs.includes(req.originalUrl)) {
-//             //allows the guest user through
-//             next()
-//     } else {
-//             //if not allowed - reditect to the login page
-//             res.redirect("/login.html")
-//         }
-//     }  
+    } else {
+        if (allowedURLs.includes(req.originalUrl)) {
+            //allows the guest user through
+            next()
+    } else {
+            //if not allowed - reditect to the login page
+            res.redirect("/login.html")
+        }
+    }  
         
-// })
+})
 
 
 // // dallas end
