@@ -51,8 +51,8 @@ router.get("/sport", (req, res) => {
 // a specific book by id
 
 // could be "/favorites/:content"
-router.get("/sport/:body", (req, res) => {
-    sportModel.sport(body)
+router.get("/sport/:bodyPart", (req, res) => {
+    sportModel.getSportByBody(req.params.bodyPart)
         .then((results) => {
             if (results.length > 0) {
                 res.status(200).json(results[0])

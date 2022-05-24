@@ -335,7 +335,7 @@ router.post("/users/login", (req, res) => {
                         // userID: user.userID,
                         // accessRights: user.accessRights,
                     }
-                    console.log(req.session.user.email, + "login", req.session.user.user_status)
+                    console.log(2, req.session.user.email, + "login", req.session.user.user_status)
 
                     // //setup session to login user
                     // request.session.user = {
