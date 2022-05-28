@@ -381,12 +381,13 @@ router.post("/users/login", (req, res) => {
 })
 
 router.post("/users/logout", (req, res) => {
+    console.log("hi")
     // const userLoggedIn = req.session.user = !null
     let userLoggedIn = req.session.user !== null
     console.log('Logout Stuff1: ', userLoggedIn)
     console.log('Logout stuff2: ', req.session)
     // console.log(req.session)
-    if (req.session.user.user_status != null) {
+    if (req.session.user.user_status !== undefined) {
         userLoggedIn = true
 
     } else {
