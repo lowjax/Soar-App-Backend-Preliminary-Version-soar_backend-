@@ -42,8 +42,6 @@ server.use(session({
     saveUninitialized: true,
     cookie: {
         secure: false,
-        // username: null,
-        // loginstatus: false,
     } // Should be turned to true in production (HTTPS only)
 }))
 
@@ -59,25 +57,23 @@ const limiter = rateLimit({
 server.use(limiter);
 
 // Apply the rate limiting middleware to all requests
+
 const speedLimiter = slowDown({
-    windowMs: 1000,
-    delayAfter: 1,
-    delayMs: 500,
+    windowMs: 1000, // 1 second 
+    delayAfter: 1, // allow 1 request per 1 second
+    delayMs: 500, // begin adding 500ms if delay per request above 1
+    
+    // request # 101 is delayed by 500ms
+    // request # 102 is delayed by 1000ms
+    // request # 103 is delayed by 15000ms
+    // etc.
 });
 
 // apply to all request
 server.use(speedLimiter);
 // server.user(limiter)
 
-// const corsOptions = {
-//     origin: 'http://localhost:1234/',
-//     optionsSuccessStatus: 200 // some legacy browser (IE11, various smartTvs) choke on 204
-// }
-// server.use(cors(corsOptions))
 
-// server.listen(80, function () {
-//     console.log('CORS-enabled web server listening on port 80')
-// })
 
 // cors online help
 server.use(cors({
@@ -86,8 +82,7 @@ server.use(cors({
 }));
 
 
-// app.use(speedLimiter);
-// app.use(limiter, speedLimiter) //???
+
 
 
 // express rate limiting end***************
@@ -98,18 +93,7 @@ server.use(cors({
 // Must happen after JSON and session middleware but before static files
 server.use((req, res, next) => {
     console.log(req.body)
-    // console.log(req.ip)
-    // console.log(new Date())
-    // console.log(req.method)
-    // // console.log(req.session.user.email)
-    // // console.log(req.session.user.user_status)
-    // console.log(req.session.user)
-    // if (
-    //     req.session.user
-    // ){
-    //     console.log(req.session.user.email)
-    //     console.log(req.session.user.user_status)
-    // }
+   
     // The user is logged in if they have session data
     let userLoggedIn = req.session.user != null
     next()
@@ -136,50 +120,54 @@ server.use((req, res, next) => {
     //     }
     // }
 })
-// // dallas start
+// dallas start
 
-// server.use((req, res, next) => {
-//     console.log(`${req.method} - ${req.url},`);
+server.use((req, res, next) => {
+    console.log(`${req.method} - ${req.url},`);
 
-//     // the user is logged in if the have session data
-//     console.log(req.session)
-//     let userLoggedIn = req.session.user !=null
-//     console.log(1, userLoggedIn)
-//     //define a list of allowed urls for non-logged in users
-//     let allowedURLs = [
-//      "/login.html",
-//      "/api/users/login",
-//     //  "/api/users/logout",
-//     //  "/logout.html",
+    // the user is logged in if the have session data
+    console.log(req.session)
+    let userLoggedIn = req.session.user !=null
+    console.log(1, userLoggedIn)
+    //define a list of allowed urls for non-logged in users
+    let allowedURLs = [
+     "http://localhost:3000",
+     "/api/users/login",
+    //  "/api/users/logout",
+    //  "/logout.html",
      
-//     ]
+    ]
 
 
 
-//     let adminOnlyURLS = [
-//         "/IndexAdmin",
-//         "/SelectionAdmin"
-//      ]
-//     // if the user is logged in 
-//     if (userLoggedIn) {
-//         // let them through
-//         if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights != "admin") {
-//             res.redirect("/login.html");
-//         } else {
-//             next()
-//         }
+    let adminOnlyURLS = [
+        "/IndexAdmin",
+        "/SelectionAdmin",
+        "/AdminUserCRUD"
+     ]
+    // if the user is logged in 
+    if (userLoggedIn) {
+        // let them through
+        if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights !== "admin") {
+            console.log('heello 1')
+            res.redirect("/login");
+        } else {
+            next()
+        }
         
-//     } else {
-//         if (allowedURLs.includes(req.originalUrl)) {
-//             //allows the guest user through
-//             next()
-//     } else {
-//             //if not allowed - reditect to the login page
-//             res.redirect("/login.html")
-//         }
-//     }  
+    } else {
+        if (allowedURLs.includes(req.originalUrl)) {
+            //allows the guest user through
+            next()
+        } else {
+        res.redirect("http://localhost:3000")
+            //if not allowed - reditect to the login page
+            console.log('heello')
+
+        }
+    }  
         
-// })
+})
 
 
 // // dallas end

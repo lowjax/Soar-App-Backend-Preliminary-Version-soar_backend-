@@ -12,25 +12,20 @@ const session = require("express-session")
 
 router.get("/users", (req, res) => {
 
-    // userModel.getAllUsers()
-    //     .then((results) => {
-    //         res.status(200).json(results)
-    //     })
-    //     .catch((error) => {
-    //         console.log(error)
-    //         res.status(500).json("query error")
-    //     })
     const userLoggedIn = req.session.user = !null
 
     if (userLoggedIn == true) {
         userModel.getAllUsers()
         .then((results) => {
+            console.log('results')
             res.status(200).json(results)
         })
         .catch((error) => {
+            console.log('error')
             console.log(error)
             res.status(500).json("query error")
         })
+        console.log('session data')
         console.log(req.session.user.email)
         logModel.createLog(
             req.ip,
@@ -42,6 +37,7 @@ router.get("/users", (req, res) => {
 
         )
     } else {
+        console.log('here')
         res.redirect('/login')
         res.alert("you must sign in")
         res.alert('user not logged in')
@@ -62,48 +58,7 @@ router.get("/users", (req, res) => {
     }
 })
 
-// router.post("/users/create", (req, res) => {
-//     // Only allow admins to use this endpoint
-//     if (req.session.user.accessRights != "admin") {
-//         // Send back an error message
-//         res.status(403).json("admin only action")
-//         // Stop this response handler here
-//         return;
-//     }
 
-//     // req.body represents the form field data (json in body of fetch)
-//     let user = req.body
-
-//     // Only allow valid emails
-//     if (validator.isEmail(user.email) == false) {
-//         res.status(300).json("invalid email")
-//         return;
-//     }
-
-//     // Hash the password before inserting into DB
-//     let hashedPassword = bcrypt.hashSync(user.password, 6)
-
-//     // Each of the following names reference the "name"
-//     // attribute in the inputs of the form.
-//     userModel.createUser(
-//         validator.escape(user.first_name),
-//         validator.escape(user.last_name),
-//         validator.escape(user.email),
-//         hashedPassword, // We now store the hashed version of the password
-//         validator.escape(user.user_status)
-//     )
-//     .then((result) => {
-//         res.status(200).json("user created with email " + result.insertemail)
-
-//         // Log user creation
-//         logModel.addLogEntryCreate(req.session.user.email, result.insertemail)
-//     })
-//     .catch((error) => {
-//         console.log(error)
-//         res.status(500).json("query error - failed to create user")
-//     })
-
-// })
 
 router.post("/users/create", (req, res) => {
     // Only allow admins to use this endpoint
@@ -111,8 +66,6 @@ router.post("/users/create", (req, res) => {
 
     // req.body represents the form field data (json in body of fetch)
     let user = req.body
-    // console.log(2, user)
-    // console.log(1,user.password)
 
     // Only allow valid emails
 
@@ -267,7 +220,7 @@ router.patch("/users/update", (req, res) => {
         // res.redirect('/api/user/login')
     }
 })
-
+|
 router.delete("/users/delete", (req, res) => {
     // Access the user id from the body of the request
     let email = req.body.email
@@ -322,8 +275,7 @@ router.post("/users/login", (req, res) => {
                 // next we check their password.
                 let user = results[0]
                 console.log(user)
-                // console.log('Form Password: ', login.password)
-                // console.log('Database Password: ', user.password)
+                
                 // Check if the login password matches the users password hash
                 if (bcrypt.compareSync(login.password, user.password)) {
 
@@ -332,34 +284,10 @@ router.post("/users/login", (req, res) => {
                         first_name: user.first_name,
                         last_name: user.last_name,
                         user_status: user.user_status
-                        // userID: user.userID,
-                        // accessRights: user.accessRights,
+            
                     }
                     console.log(2, req.session.user.email, + "login", req.session.user.user_status)
 
-                    // //setup session to login user
-                    // request.session.user = {
-                        // user_status: user.user_status,
-                        // email: user.email,
-                        // loginstatus: true,
-                        // password: user.password
-                    // }
-                  
-                    // req.session.username=login.email;
-                    // req.session.loginstatus=true;
-                    
-
-                    //update database with loginstatus
-                    
-
-                    // console.log('Request Body Info: ', req.body)
-                    // console.log('Request Session Info: ',req.session)
-
-                  
-
-                    // console.log(req.session.loginstatus)
-                    // let the client know login was successful
-                    // res.status(200).json({message:"login successful", user_status: req.session.user.user_status })
                         res.status(200).json({message:"login successful", user_status: req.session.user.user_status, email:req.session.user.email})
                         
                     // res.status(200).json({status:"login successful", user_status: user.user_status } )
