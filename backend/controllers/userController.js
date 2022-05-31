@@ -7,7 +7,7 @@ const router = express.Router()
 
 const userModel = require("../models/userModel")
 const logModel = require("../models/logModel")
-const { request } = require("express")
+const { request, json } = require("express")
 const session = require("express-session")
 
 router.get("/users", (req, res) => {
@@ -123,43 +123,43 @@ router.post("/users/create", (req, res) => {
 
 
 
-// !!! You should add a comment here explaining this block in your own words.
-router.get("/users/:email", (req, res) => {
-    console.log(req.params.email)
-    userModel.getUserByEmail(req.params.email)
-        .then((results) => {
-            if (results.length > 0) {
-                res.status(200).json(results[0])
-            } else {
-                res.status(404).json("failed to get user by email")
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            res.status(500).json("failed to get user - query error")
-        })
-    const userLoggedIn = req.session.user = !null
-    if (userLoggedIn == true) {
-        logModel.createLog(
-            req.ip,
-            (JSON.stringify(req.session.user)),
-            req.session.user.email,
-            req.session.user.user_status,
-            (new Date().toISOString()),
-            req.method,
+// // !!! You should add a comment here explaining this block in your own words.
+// router.get("/users/:email", (req, res) => {
+//     console.log(req.params.email)
+//     userModel.getUserByEmail(req.params.email)
+//         .then((results) => {
+//             if (results.length > 0) {
+//                 res.status(200).json(results[0])
+//             } else {
+//                 res.status(404).json("failed to get user by email")
+//             }
+//         })
+//         .catch((error) => {
+//             console.log(error)
+//             res.status(500).json("failed to get user - query error")
+//         })
+//     const userLoggedIn = req.session.user = !null
+//     if (userLoggedIn == true) {
+//         logModel.createLog(
+//             req.ip,
+//             (JSON.stringify(req.session.user)),
+//             req.session.user.email,
+//             req.session.user.user_status,
+//             (new Date().toISOString()),
+//             req.method,
 
-        )
-    } else {
+//         )
+//     } else {
 
-        logModel.createLog(
-            req.ip,
-            req.method,
+//         logModel.createLog(
+//             req.ip,
+//             req.method,
 
-        )
-        res.redirect('/login')
-        res.alert("you must sign in")
-    }
-})
+//         )
+//         res.redirect('/login')
+//         res.alert("you must sign in")
+//     }
+// })
 
 // Define an /api/users/update endpoint that updates an existing user
 router.patch("/users/update", (req, res) => {
@@ -222,15 +222,24 @@ router.patch("/users/update", (req, res) => {
 })
 |
 router.delete("/users/delete", (req, res) => {
+        console.log("DLETE USER")
     // Access the user id from the body of the request
     let email = req.body.email
-
+        console.log(email)
+        console.log(req.body)
     // Ask the model to delete the user with userId
     userModel.deleteUser(email)
         .then((result) => {
+            console.log("DLETE USER")
+
+            // console.log(email)
             if (result.affectedRows > 0) {
+                console.log(result)
                 res.status(200).json("user deleted")
             } else {
+                console.log("user not found")
+
+                console.log("email")
                 res.status(404).json("user not found")
             }
         })
@@ -239,7 +248,9 @@ router.delete("/users/delete", (req, res) => {
             res.status(500).json("failed to delete user - query error")
         })
     let userLoggedIn
-    if (req.session.user != null) {
+    // if (req.session.user = "admin")
+    if (req.session.user != null) 
+    {
         userLoggedIn = true
 
     } else {
@@ -308,6 +319,45 @@ router.post("/users/login", (req, res) => {
 
 })
 
+// !!! You should add a comment here explaining this block in your own words.
+router.get("/users/:email", (req, res) => {
+    console.log(req.params.email)
+    userModel.getUserByEmail(req.params.email)
+        .then((results) => {
+            if (results.length > 0) {
+                res.status(200).json(results[0])
+            } else {
+                res.status(404).json("failed to get user by email")
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            res.status(500).json("failed to get user - query error")
+        })
+    const userLoggedIn = req.session.user = !null
+    if (userLoggedIn == true) {
+        logModel.createLog(
+            req.ip,
+            (JSON.stringify(req.session.user)),
+            req.session.user.email,
+            req.session.user.user_status,
+            (new Date().toISOString()),
+            req.method,
+
+        )
+    } else {
+
+        logModel.createLog(
+            req.ip,
+            req.method,
+
+        )
+        res.redirect('/login')
+        res.alert("you must sign in")
+    }
+})
+
+
 router.post("/users/logout", (req, res) => {
     console.log("hi")
     // const userLoggedIn = req.session.user = !null
@@ -315,7 +365,7 @@ router.post("/users/logout", (req, res) => {
     console.log('Logout Stuff1: ', userLoggedIn)
     console.log('Logout stuff2: ', req.session)
     // console.log(req.session)
-    if (req.session.user.user_status !== undefined) {
+    if (req.session.user.user_status !== "") {
         userLoggedIn = true
 
     } else {
@@ -340,6 +390,9 @@ router.post("/users/logout", (req, res) => {
         // res.redirect('/api/user/login')
     }
 })
+
+
+
 
 
 // This allows the server.js to import (require) the routes
