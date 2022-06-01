@@ -12,7 +12,7 @@ const logModel = require("../models/logModel")
 // Define an /api/books endpoint that responds with
 // an array of all books.
 router.get("/injury", (req, res) => {
-    injuryModel.getInjury()
+    injuryModel.getInjury(req.params.sport)
         .then((results) => {
             res.status(200).json(results)
         })

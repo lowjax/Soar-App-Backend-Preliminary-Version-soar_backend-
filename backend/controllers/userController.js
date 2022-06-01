@@ -222,56 +222,57 @@ router.patch("/users/update", (req, res) => {
 })
 |
 router.delete("/users/delete", (req, res) => {
+    console.log("DLETE USER")
+// Access the user id from the body of the request
+let email = req.body.email
+    console.log(email)
+    console.log(req.body)
+// Ask the model to delete the user with userId
+userModel.deleteUser(email)
+    .then((result) => {
         console.log("DLETE USER")
-    // Access the user id from the body of the request
-    let email = req.body.email
-        console.log(email)
-        console.log(req.body)
-    // Ask the model to delete the user with userId
-    userModel.deleteUser(email)
-        .then((result) => {
-            console.log("DLETE USER")
 
-            // console.log(email)
-            if (result.affectedRows > 0) {
-                console.log(result)
-                res.status(200).json("user deleted")
-            } else {
-                console.log("user not found")
+        // console.log(email)
+        if (result.affectedRows > 0) {
+            console.log(result)
+            res.status(200).json("user deleted")
+        } else {
+            console.log("user not found")
 
-                console.log("email")
-                res.status(404).json("user not found")
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            res.status(500).json("failed to delete user - query error")
-        })
-    let userLoggedIn
-    // if (req.session.user = "admin")
-    if (req.session.user != null) 
-    {
-        userLoggedIn = true
+            console.log("email")
+            res.status(404).json("user not found")
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json("failed to delete user - query error")
+    })
+let userLoggedIn
+// if (req.session.user = "admin")
+if (req.session.user != null) 
+{
+    userLoggedIn = true
 
-    } else {
-        userLoggedIn = false
-    }
+} else {
+    userLoggedIn = false
+}
 
-    if (userLoggedIn == true) {
-        logModel.createLog(
-            req.ip,
-            (JSON.stringify(req.session.user)),
-            req.session.user.email,
-            req.session.user.user_status,
-            (new Date().toISOString()),
-            req.method,
+if (userLoggedIn == true) {
+    logModel.createLog(
+        req.ip,
+        (JSON.stringify(req.session.user)),
+        req.session.user.email,
+        req.session.user.user_status,
+        (new Date().toISOString()),
+        req.method,
 
-        )
-    } else {
-        console.log("not logged in")
-        // res.redirect('/api/user/login')
-    }
+    )
+} else {
+    console.log("not logged in")
+    // res.redirect('/api/user/login')
+}
 })
+
 
 router.post("/users/login", (req, res) => {
     // console.log(req)
