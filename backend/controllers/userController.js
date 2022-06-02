@@ -366,7 +366,7 @@ router.post("/users/logout", (req, res) => {
     console.log('Logout Stuff1: ', userLoggedIn)
     console.log('Logout stuff2: ', req.session)
     // console.log(req.session)
-    if (req.session.user.user_status !== "") {
+    if (req.session.user.user_status !== "","admin") {
         userLoggedIn = true
 
     } else {

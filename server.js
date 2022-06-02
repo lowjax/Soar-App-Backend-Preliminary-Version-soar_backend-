@@ -79,11 +79,9 @@ server.use(speedLimiter);
 server.use(cors({
     origin: 'http://localhost:3000',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
+
     credentials: true
 }));
-
-
 
 
 
@@ -135,6 +133,7 @@ server.use((req, res, next) => {
     let allowedURLs = [
      "http://localhost:3000",
      "/api/users/login",
+     "/api/users/create",
     //  "/api/users/logout",
     //  "/logout.html",
      
@@ -145,7 +144,7 @@ server.use((req, res, next) => {
     let adminOnlyURLS = [
         "/IndexAdmin",
         "/SelectionAdmin",
-        // "/AdminUserCRUD"
+        "/AdminUserCRUD"
      ]
     // if the user is logged in 
     if (userLoggedIn) {
