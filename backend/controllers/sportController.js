@@ -22,28 +22,7 @@ router.get("/sport", (req, res) => {
             res.status(500).json("query error")
         })
 
-    // let userLoggedIn
-    // if (req.session.user != null) {
-    //     userLoggedIn = true
-
-    // } else {
-    //     userLoggedIn = false
-    // }
-
-    // if (userLoggedIn == true) {
-    //     logModel.createLog(
-    //         req.ip,
-    //         (JSON.stringify(req.session.user)),
-    //         req.session.user.email,
-    //         req.session.user.user_status,
-    //         (new Date().toISOString()),
-    //         req.method,
-
-    //     )
-    // } else {
-    //     console.log("not logged in")
-    //     res.redirect('/login')
-    // }
+  
 })
 
 
