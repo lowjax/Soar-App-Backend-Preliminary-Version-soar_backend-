@@ -171,9 +171,9 @@ router.patch("/users/update", (req, res) => {
 
     // If the string does NOT start with a $ then we need to hash it.
     // Existing passwords that do start with $ are already hashed.
-    if (!password.startsWith("$")) {
-        password = bcrypt.hashSync(password, 6)
-    }
+    // if (!password.startsWith("$")) {
+    //     password = bcrypt.hashSync(password, 6)
+    // }
 
     // Each of the names below reference the "name" attribute in the form
     userModel.updateUser(

@@ -144,7 +144,14 @@ server.use((req, res, next) => {
     let adminOnlyURLS = [
         "/IndexAdmin",
         "/SelectionAdmin",
-        "/AdminUserCRUD"
+        "/AdminUserCRUD",
+        "/SportCRUD",
+        "/NavbarAdmin",
+        "/contentcontainerAdmin",
+        "/SelectionAdmin",
+        "/LogoutAdmin",
+        "/CreateAccountAdmin",
+        "/ThemeAdmin"
      ]
     // if the user is logged in 
     if (userLoggedIn) {

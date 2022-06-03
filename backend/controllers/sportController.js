@@ -11,8 +11,8 @@ const logModel = require("../models/logModel")
 
 // Define an /api/books endpoint that responds with
 // an array of all books.
-router.post("/sport", (req, res) => {
-    sportModel.getSportByBody(req.params.body)
+router.get("/sport", (req, res) => {
+    sportModel.getSport(req.body)
         .then((results) => {
             res.status(200).json(results)
         })
