@@ -2,7 +2,7 @@ const rateLimit = require('express-rate-limit')
 const express = require("express")
 const session = require("express-session")
 const cookieParser = require("cookie-parser")
-const bcrypt = require ('bcrypt');
+const bcryptjs = require ('bcryptjs');
 
 
 // const { body, validationResult } = require('express-validator');
@@ -177,9 +177,10 @@ server.use((req, res, next) => {
         } 
         
         else {
+     
         // res.redirect("http://localhost:3000")
         //     //if not allowed - reditect to the login page
-            console.log('heello')
+        //     console.log('heello')
 
         }
     }  
@@ -299,9 +300,13 @@ server.use("/api", bodyController)
 
 
 // Start the express server
-server.listen(port, () => {
-    console.log("Backend listening on https://soar-backend.herokuapp.com/")
+server.listen(process.env.PORT || 1235, () => {
+    console.log("backend is listeing on http://localhost:1235")
 })
+
+// server.listen(port, () => {
+//     console.log("Backend listening on https://soar-backend.herokuapp.com/")
+// })
 
 
 

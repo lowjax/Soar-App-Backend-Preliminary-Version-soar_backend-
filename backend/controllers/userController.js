@@ -1,5 +1,5 @@
 const express = require("express")
-const bcrypt = require("bcrypt")
+const bcryptjs = require("bcryptjs")
 const validator = require("validator")
 
 
@@ -70,7 +70,7 @@ router.post("/users/create", (req, res) => {
     // Only allow valid emails
 
     // Hash the password before inserting into DB
-    let hashedPassword = bcrypt.hashSync(user.password, 6)
+    let hashedPassword = bcryptjs.hashSync(user.password, 6)
     console.log(hashedPassword)
 
     // Each of the following names reference the "name"
@@ -289,7 +289,7 @@ router.post("/users/login", (req, res) => {
                 console.log(user)
                 
                 // Check if the login password matches the users password hash
-                if (bcrypt.compareSync(login.password, user.password)) {
+                if (bcryptjs.compareSync(login.password, user.password)) {
 
                     req.session.user = {
                         email: user.email,
