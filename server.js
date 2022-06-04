@@ -284,7 +284,7 @@ const favoritesController = require("./backend/controllers/favoritesController")
 server.use("/api", favoritesController)
 
 
-const BodyController =require("./backend/controllers/bodyController")
+const BodyController = require("./backend/controllers/bodyController")
 server.use("/api", BodyController)
 
 
