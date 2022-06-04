@@ -283,10 +283,8 @@ server.use("/api", sportController)
 const favoritesController = require("./backend/controllers/favoritesController")
 server.use("/api", favoritesController)
 
-// const logController = require("./backend/controllers/logController")
-// server.use("/api", logController)
 
-const BodyController =require(".backend/controllers/bodyController")
+const BodyController =require("./backend/controllers/bodyController")
 server.use("/api", BodyController)
 
 
