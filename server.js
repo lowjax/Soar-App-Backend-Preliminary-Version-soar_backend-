@@ -13,6 +13,8 @@ const bcryptjs = require ('bcryptjs');
 
 
 const server = express()
+// use the express-static middleware
+server.use(express.static("public"))
 
 server.use(cookieParser());
 
@@ -178,7 +180,7 @@ server.use((req, res, next) => {
         
         else {
      
-        res.redirect("https://soar-backend.herokuapp.com/")
+        res.redirect("/index.html")
             //if not allowed - reditect to the login page
             console.log('heello')
 
@@ -269,8 +271,13 @@ server.use((req, res, next) => {
 // })
 
 
-// Serve static frontend resources
-server.use(express.static("frontend"))
+// // Serve static frontend resources
+// server.use(express.static("frontend"))
+
+// define the first route
+server.get("/", function (req, res) {
+    res.send("<h1>Hello World!</h1>")
+ })
 
 
 // Link up the user controller
