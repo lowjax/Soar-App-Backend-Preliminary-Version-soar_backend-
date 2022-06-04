@@ -286,9 +286,13 @@ server.use("/api", favoritesController)
 // const logController = require("./backend/controllers/logController")
 // server.use("/api", logController)
 
-const BodyController = require("./backend/controllers/BodyController");
-// const { response } = require('express');
+const BodyController =require(".backend/controllers/BodyController")
 server.use("/api", BodyController)
+
+
+// const BodyController = require("./backend/controllers/BodyController");
+// // const { response } = require('express');
+// server.use("/api", BodyController)
 
 
 // Start the express server
