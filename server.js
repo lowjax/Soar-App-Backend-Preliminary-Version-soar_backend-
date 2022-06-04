@@ -80,7 +80,7 @@ server.use(speedLimiter);
 
 // cors online help
 server.use(cors({
-    origin: 'https://soar-backend.herokuapp.com/',
+    origin: 'http://localhost:3000',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 
     credentials: true
@@ -135,7 +135,7 @@ server.use((req, res, next) => {
     //define a list of allowed urls for non-logged in users
     let allowedURLs = [
      "http://localhost:3000",
-     "https://soar-backend.herokuapp.com/",
+    //  "https://soar-backend.herokuapp.com/",
      "/api/users/login",
      "/api/users/create",
     //  "/api/users/logout",
@@ -171,12 +171,14 @@ server.use((req, res, next) => {
         if (allowedURLs.includes(req.originalUrl)) {
             //allows the guest user through
             next()
-        } else {
-        res.redirect("http://localhost:3000")
-            //if not allowed - reditect to the login page
-            console.log('heello')
+        } 
+        // disabled for db deployment on heroku
+        // else {
+        // res.redirect("http://localhost:3000")
+        //     //if not allowed - reditect to the login page
+        //     console.log('heello')
 
-        }
+        // }
     }  
         
 })
