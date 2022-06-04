@@ -178,7 +178,7 @@ server.use((req, res, next) => {
         
         else {
      
-        res.redirect("http://localhost:1235")
+        res.redirect("https://soar-backend.herokuapp.com/")
             //if not allowed - reditect to the login page
             console.log('heello')
 
