@@ -80,8 +80,7 @@ server.use(speedLimiter);
 
 // cors online help
 server.use(cors({
-    origin: '*',
-    // origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000',
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 
     credentials: true
