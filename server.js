@@ -294,7 +294,7 @@ server.use("/api", bodyController)
 
 // Start the express server
 server.listen(port, () => {
-    console.log("Backend listening on http://localhost:" + port)
+    console.log("Backend listening on https://soar-backend.herokuapp.com/" + port)
 })
 
 
