@@ -135,7 +135,7 @@ server.use((req, res, next) => {
     //define a list of allowed urls for non-logged in users
     let allowedURLs = [
      "http://localhost:3000",
-    //  "https://soar-backend.herokuapp.com/",
+     "https://soar-backend.herokuapp.com/",
      "/api/users/login",
      "/api/users/create",
     //  "/api/users/logout",
