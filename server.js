@@ -29,6 +29,7 @@ const slowDown = require("express-slow-down");
 const cors = require('cors')
 const logModel = require("./backend/models/logModel") 
 
+
 // Enable middleware for JSON and urlencoded form data
 server.use(express.json())
 server.use(express.urlencoded({
@@ -286,7 +287,7 @@ server.use("/api", favoritesController)
 // server.use("/api", logController)
 
 const BodyController = require("./backend/controllers/BodyController");
-const { response } = require('express');
+// const { response } = require('express');
 server.use("/api", BodyController)
 
 
