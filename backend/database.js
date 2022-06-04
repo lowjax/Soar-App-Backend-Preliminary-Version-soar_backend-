@@ -2,11 +2,18 @@
 const mysql = require("mysql2")
 
 // Create a connection to the database
+// const connection = mysql.createPool({
+//     host: "localhost",
+//     user: "root",
+//     password: "root",
+//     database: "soar"
+// })
+
 const connection = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "soar"
+    host: "us-cdbr-east-05.cleardb.net",
+    user: "ba13c879e5c94a",
+    password: "6f34731e",
+    database: "heroku_4181bf017978f78"
 })
 
 // This wrapper will allow the use of promise functions
