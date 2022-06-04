@@ -165,23 +165,23 @@ server.use((req, res, next) => {
             res.redirect("/login");
         } 
         
-    //     else {
-    //         next()
-    //     }
+        else {
+            next()
+        }
         
-    // } 
-    // else {
-    //     if (allowedURLs.includes(req.originalUrl)) {
-    //         //allows the guest user through
-    //         next()
-    //     } 
+    } 
+    else {
+        if (allowedURLs.includes(req.originalUrl)) {
+            //allows the guest user through
+            next()
+        } 
         
-    //     else {
-    //     res.redirect("http://localhost:3000")
-    //         //if not allowed - reditect to the login page
-    //         console.log('heello')
+        else {
+        // res.redirect("http://localhost:3000")
+        //     //if not allowed - reditect to the login page
+            console.log('heello')
 
-    //     }
+        }
     }  
         
 })
