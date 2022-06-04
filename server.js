@@ -163,22 +163,25 @@ server.use((req, res, next) => {
         if (adminOnlyURLS.includes(req.originalUrl) && req.session.user.accessRights !== "admin") {
             console.log('heello 1')
             res.redirect("/login");
-        } else {
-            next()
-        }
-        
-    } else {
-        if (allowedURLs.includes(req.originalUrl)) {
-            //allows the guest user through
-            next()
         } 
-        // disabled for db deployment on heroku
-        // else {
-        // res.redirect("http://localhost:3000")
-        //     //if not allowed - reditect to the login page
-        //     console.log('heello')
+        
+    //     else {
+    //         next()
+    //     }
+        
+    // } 
+    // else {
+    //     if (allowedURLs.includes(req.originalUrl)) {
+    //         //allows the guest user through
+    //         next()
+    //     } 
+        
+    //     else {
+    //     res.redirect("http://localhost:3000")
+    //         //if not allowed - reditect to the login page
+    //         console.log('heello')
 
-        // }
+    //     }
     }  
         
 })
