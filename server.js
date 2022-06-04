@@ -20,9 +20,8 @@ server.use(cookieParser());
 
 
 
-
-
-const port = 1235
+const port = process.env.PORTnp
+// const port = 1235
 //importing express session to declare the variables
 // const rateLimit = require('express-rate-limit')
 const slowDown = require("express-slow-down");
