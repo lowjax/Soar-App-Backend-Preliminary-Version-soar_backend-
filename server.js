@@ -5,10 +5,10 @@ const cookieParser = require("cookie-parser")
 const bcrypt = require ('bcrypt');
 
 
-const { body, validationResult } = require('express-validator');
+// const { body, validationResult } = require('express-validator');
 
 
-const expressAccessToken = require('express-access-token');
+// const expressAccessToken = require('express-access-token');
 
 
 
@@ -286,7 +286,7 @@ server.use("/api", favoritesController)
 // const logController = require("./backend/controllers/logController")
 // server.use("/api", logController)
 
-const BodyController =require(".backend/controllers/BodyController")
+const BodyController =require(".backend/controllers/bodyController")
 server.use("/api", BodyController)
 
 
