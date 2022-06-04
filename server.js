@@ -23,7 +23,7 @@ server.use(cookieParser());
 
 
 const port = process.env.PORT
-// const port = 1235
+// const port = 3000
 //importing express session to declare the variables
 // const rateLimit = require('express-rate-limit')
 const slowDown = require("express-slow-down");
@@ -46,7 +46,7 @@ server.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false,
+        secure: true,
     } // Should be turned to true in production (HTTPS only)
 }))
 
@@ -307,8 +307,8 @@ server.use("/api", bodyController)
 
 
 // Start the express server
-server.listen(process.env.PORT || 1235, () => {
-    console.log("backend is listeing on http://localhost:1235")
+server.listen(process.env.PORT || 3000, () => {
+    console.log("backend is listeing on http://localhost:3000")
 })
 
 // server.listen(port, () => {
