@@ -1,19 +1,10 @@
-// Access the database connection from database.js
 const db = require("../database")
-module.exports.getAllFavorites = () => {
-    return db.query("SELECT * FROM favorites")
-}
 
-module.exports.getFavoritesById= (ID) => {
-    return db.query("SELECT * FROM favorites WHERE ID = ?", [ID])
-}
 
-module.exports.deleteFavorites = (ID) => {
-    return db.query("DELETE FROM favorites WHERE ID = ?", [ID])
-}
+// module.exports.getInjuryBySport= (sport) => {
+//     return db.query("SELECT * FROM injury WHERE sport = ?", [sport])
+// },
 
-module.exports.updateFavorites = (ID) => {
-    return db.query("ID = ?", [ID])
+module.exports.filterExecution= ()=> {
+    return db.query("SELECT `sport`.*, `injury`.* FROM `sport` LEFT JOIN `injury` ON `injury`.`sport` = `sport`.`sport`  WHERE body = ?", [body])
 }
-
-/// create insert into favorites query ***********

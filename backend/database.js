@@ -1,7 +1,8 @@
+
 // Import mysql2 module so that we can talk to the database
 const mysql = require("mysql2")
 
-// Create a connection to the database
+// // Create a connection to the database
 // const connection = mysql.createPool({
 //     host: "localhost",
 //     user: "root",
@@ -16,9 +17,13 @@ const connection = mysql.createPool({
     database: "heroku_4181bf017978f78"
 })
 
+
+
 // This wrapper will allow the use of promise functions
 // like .then() and .catch() so that we can use it in an async
 // way along with expressJS.
+
+
 const query = (sql, parameters) => {
     return new Promise((resolve, reject) => {
         connection.query(sql, parameters, (error, results) => {

@@ -2,15 +2,18 @@ const express = require("express")
 // Create a router so that we can define API
 // routes in this file.
 const router = express.Router()
-// Access the books model so that we can access
-// book data in this file.
+// Access the injurie model so that we can access
+// injury data in this file.
 const injuryModel = require("../models/injuryModel")
 
 const logModel = require("../models/logModel")
 
+const validator = require("validator")
 
-// Define an /api/books endpoint that responds with
-// an array of all books.
+
+
+// Define an /api/injury endpoint that responds with
+// an array of all injuries.
 router.get("/injury", (req, res) => {
     injuryModel.getInjury(req.params.sport)
         .then((results) => {
@@ -23,8 +26,8 @@ router.get("/injury", (req, res) => {
         })
 })
 
-// Define an /api/books/:id endpoint that responds with
-// a specific book by id
+// Define an /api/injury/:sport endpoint that responds with
+// a specific injury by sport
 
 // could be "/favorites/:content"
 router.get("/injury/:sport", (req, res) => {
@@ -85,7 +88,7 @@ router.post("/injury/create", (req, res) => {
     // Each of the following names reference the "name"
     // attribute in the inputs of the form.
     injuryModel.createInjury(
-            injury.injury
+            validator.escape(injury.injury)
 
      
         )
@@ -132,6 +135,7 @@ router.delete("/injury/delete", (req, res) => {
 
     // Ask the model to delete the user with userId
     injuryModel.deleteInjury(injury)
+
         .then((result) => {
             if (result.affectedRows > 0) {
                 res.status(200).json("injury deleted")
@@ -174,52 +178,52 @@ router.delete("/injury/delete", (req, res) => {
 
 
 // Define an /api/users/update endpoint that updates an existing user
-router.patch("/injury/update", (req, res) => {
-    // the req.body represents the posted json data
-    let file_name = req.body
+// router.patch("/injury/update", (req, res) => {
+//     // the req.body represents the posted json data
+//     let file_name = req.body
 
 
-    // If the string does NOT start with a $ then we need to hash it.
-    // Existing passwords that do start with $ are already hashed
+//     // If the string does NOT start with a $ then we need to hash it.
+//     // Existing passwords that do start with $ are already hashed
 
-    // Each of the names below reference the "name" attribute in the form
-    injuryModel.updateInjury(
-            injury.injury)
+//     // Each of the names below reference the "name" attribute in the form
+//     injuryModel.updateInjury(
+//             injury.injury)
 
-        .then((result) => {
-            if (result.affectedRows > 0) {
-                res.status(200).json("injury updated")
-            } else {
-                res.status(404).json("injury not found")
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            res.status(500).json("failed to update injuryy - query error")
-        })
-    let userLoggedIn
-    if (req.session.user != null) {
-        userLoggedIn = true
+//         .then((result) => {
+//             if (result.affectedRows > 0) {
+//                 res.status(200).json("injury updated")
+//             } else {
+//                 res.status(404).json("injury not found")
+//             }
+//         })
+//         .catch((error) => {
+//             console.log(error)
+//             res.status(500).json("failed to update injuryy - query error")
+//         })
+//     let userLoggedIn
+//     if (req.session.user != null) {
+//         userLoggedIn = true
 
-    } else {
-        userLoggedIn = false
-    }
+//     } else {
+//         userLoggedIn = false
+//     }
 
-    if (userLoggedIn == true) {
-        logModel.createLog(
-            req.ip,
-            (JSON.stringify(req.session.user)),
-            req.session.user.email,
-            req.session.user.user_status,
-            (new Date().toISOString()),
-            req.method,
+//     if (userLoggedIn == true) {
+//         logModel.createLog(
+//             req.ip,
+//             (JSON.stringify(req.session.user)),
+//             req.session.user.email,
+//             req.session.user.user_status,
+//             (new Date().toISOString()),
+//             req.method,
 
-        )
-    } else {
-        console.log("not logged in")
-        // res.redirect('/api/user/login')
-    }
-})
+//         )
+//     } else {
+//         console.log("not logged in")
+//         // res.redirect('/api/user/login')
+//     }
+// })
 
 
 

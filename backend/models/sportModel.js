@@ -13,9 +13,14 @@ module.exports.deleteSport = (sport) => {
 }
 
 
-module.exports.updateSport = (sport) => {
-    return db.query("sport = ?", [sport])
+// module.exports.updateSport = (sport) => {
+//     return db.query("sport = ?", [sport])
+// }
+module.exports.updateSport = (body, desc, sport) => {
+    return db.query("UPDATE sport SET body = '?', desc = '?', sport = '?' WHERE sport = '?'",
+     [body, desc, sport])
 }
+
 
 module.exports.createSport = (sport) => {
     return db.query("INSERT INTO sport (sport) "

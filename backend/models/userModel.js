@@ -23,11 +23,25 @@ module.exports.getUserByPhone = (phone) => {
 
 }
 
-module.exports.updateUser = (first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email) => {
+// module.exports.updateUser = (first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email) => {
+//     // console.log(first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email)
+//     return db.query("UPDATE users SET first_name = ?, last_name = ?, phone = ?, profilePic_path = ?, date_joined = ?, user_status = ?, password = ? WHERE email = ?", 
+//     [first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email])
+// }
+
+module.exports.updateUser = (user_status, email) => {
     // console.log(first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email)
-    return db.query("UPDATE users SET first_name = ?, last_name = ?, phone = ?, profilePic_path = ?, date_joined = ?, user_status = ?, password = ? WHERE email = ?", 
-    [first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email])
+    return db.query("UPDATE users SET user_status = ? WHERE email = ?", 
+    [user_status, email])
 }
+
+
+
+// module.exports.updateUser = (first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email) => {
+//     // console.log(first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email)
+//     return db.query("UPDATE users SET first_name = '?', last_name = '?', phone = '?', profilePic_path = '?', date_joined = '?', user_status = '?', password = '?' WHERE email = '?'", 
+//     [first_name, last_name, phone, profilePic_path, date_joined, user_status, password, email])
+// }
 
 module.exports.deleteUser = (email) => {
     return db.query("DELETE FROM users WHERE email = ?", [email])

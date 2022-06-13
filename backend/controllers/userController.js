@@ -66,7 +66,8 @@ router.post("/users/create", (req, res) => {
 
     // req.body represents the form field data (json in body of fetch)
     let user = req.body
-
+console.log(user)
+   
     // Only allow valid emails
 
     // Hash the password before inserting into DB
@@ -76,12 +77,12 @@ router.post("/users/create", (req, res) => {
     // Each of the following names reference the "name"
     // attribute in the inputs of the form.
     userModel.createUser(
-            user.email,
-            user.first_name,
-            user.last_name, user.phone,
-            user.profilePic_path,
-            user.date_joined,
-            user.user_status,
+        validator.escape(user.email),
+        validator.escape(user.first_name),
+            // user.last_name, user.phone,
+            // user.profilePic_path,
+            // user.date_joined,
+        validator.escape(user.user_status),
             hashedPassword
 
             // We now store the hashed version of the password
@@ -159,13 +160,21 @@ router.post("/users/create", (req, res) => {
 //         res.redirect('/login')
 //         res.alert("you must sign in")
 //     }
+//
 // })
 
 // Define an /api/users/update endpoint that updates an existing user
-router.patch("/users/update", (req, res) => {
+router.put("/users/update", (req, res) => {
     // the req.body represents the posted json data
     let user = req.body
     console.log(req.body)
+    
+    
+    // if (validator.isEmail(user.email) == false) {
+    //     res.status(406).json({warning: "email is invalid"});
+    //     return;
+    //   }
+
 
     let password = user.password
 
@@ -176,15 +185,18 @@ router.patch("/users/update", (req, res) => {
     // }
 
     // Each of the names below reference the "name" attribute in the form
+// as you will notice only one of these has validator.escape on it, that is beacause only this field
+//is being updated in our applicaiton yet express requires the presence of others for update. 
+
     userModel.updateUser(
-            user.first_name,
-            user.last_name,
-            user.phone,
-            user.profilePic_path,
-            user.date_joined,
-            user.user_status,
-            password, // Use the hashed password
-            user.email
+            // user.first_name,
+            // user.last_name,
+            // user.phone,
+            // user.profilePic_path,
+            // user.date_joined,
+            validator.escape(user.user_status),
+            // password, // Use the hashed password
+            validator.escape(user.email)
         )
         .then((result) => {
             if (result.affectedRows > 0) {
